@@ -15,25 +15,16 @@ export default function Borrar() {
     }
   };
 
-  const eliminarCancion = async (id) => {
-  if (!window.confirm("¿Estás seguro?")) return;
-
-  // 1. Obtener el token
-  const token = localStorage.getItem('token');
-
-  try {
-    // 2. Pasar el token en los headers
-    await axios.delete(`http://localhost:5000/api/canciones/${id}`, {
-      headers: { 'Authorization': token }
-    });
-    
-    alert("Canción eliminada");
-    buscarCanciones(); 
-  } catch (error) {
-    console.error("Error al eliminar:", error);
-    alert("Error: " + (error.response?.data?.mensaje || "No autorizado"));
-  }
-};
+  const eliminar = async (id) => {
+    if (!window.confirm("¿Eliminar este álbum?")) return;
+    try {
+      await axios.delete(`http://localhost:5000/api/albumes/${id}`);
+      cargarAlbumes();
+      alert("Album Eliminado");
+    } catch (error) {
+      alert("No se pudo eliminar el álbum");
+    }
+  };
 
   useEffect(() => { cargarAlbumes(); }, []);
 
@@ -59,7 +50,7 @@ export default function Borrar() {
         ← Volver
       </button>
       
-      <h1>Mis Álbumes</h1>
+      <h1>Mis bumes</h1>
 
       <button 
         onClick={() => navigate('/subir')} 
